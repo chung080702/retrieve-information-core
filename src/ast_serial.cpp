@@ -100,6 +100,7 @@ int next(AstBaseNode *node)
 			}
 		}
 	}
+	return -1;
 }
 
 AstBaseNode *node[20];

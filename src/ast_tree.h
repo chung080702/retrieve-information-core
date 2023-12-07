@@ -1,9 +1,7 @@
 enum OP
 {
-	AND = 0,
-	OR = 1,
-	NOT = 2,
-	XOR = 3
+	AND = '&',
+	OR = '|',
 };
 
 typedef struct

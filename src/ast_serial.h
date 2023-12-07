@@ -3,8 +3,6 @@
 
 using namespace std;
 
-vector<vector<int>> dsChiMucNguoc;
-
 int current(AstBaseNode *node, vector<vector<int>> dsChiMucNguoc)
 {
 	if (node->isLeaf)
@@ -136,4 +134,36 @@ vector<int> getListIndex(AstBaseNode *root, int begin, int length, vector<vector
 			res.push_back(idx);
 	}
 	return res;
+}
+
+// [12][32]&[5][4][123]|[89]&|
+AstBaseNode *postfixQueryToTree(string str)
+{
+	stack<AstBaseNode *> st;
+	int wordId = 0;
+	for (auto c : str)
+	{
+		if ('0' <= c && c <= '9')
+			wordId = wordId * 10 + c - '0';
+		else if (c == '[')
+			wordId = 0;
+		else if (c == ']')
+		{
+			auto node = (AstBaseNode *)new AstLeafNode(wordId);
+			st.push(node);
+		}
+		else
+		{
+			auto right = st.top();
+			st.pop();
+			auto left = st.top();
+			st.pop();
+			auto node = new AstInnerNode((OP)c);
+			node->left = left;
+			node->right = right;
+
+			st.push((AstBaseNode *)node);
+		}
+	}
+	return st.top();
 }

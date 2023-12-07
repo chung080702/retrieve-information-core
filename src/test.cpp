@@ -1,7 +1,9 @@
 #include <bits/stdc++.h>
 #include "ast_serial.h"
 
-AstBaseNode *node[20];
+using namespace std;
+
+vector<vector<int>> dsChiMucNguoc;
 
 int main()
 {
@@ -25,38 +27,12 @@ int main()
         dsChiMucNguoc.push_back(v);
     }
 
-    // danh sach node
-    // node1: left -> node2, right -> node3
-    cin >> m;
-    for (int i = 1; i <= m; i++)
-    {
-        bool isLeaf;
-        cin >> isLeaf;
-        if (isLeaf)
-        {
-            int wordId;
+    // postfix query
+    string s;
+    cin >> s;
+    auto root = postfixQueryToTree(s);
 
-            cin >> wordId;
-            node[i] = (AstBaseNode *)new AstLeafNode(wordId);
-        }
-        else
-        {
-            int op;
-            cin >> op;
-            if (op == 0)
-                node[i] = (AstBaseNode *)new AstInnerNode(OP::AND);
-            else if (op == 1)
-                node[i] = (AstBaseNode *)new AstInnerNode(OP::OR);
-        }
-    }
-    for (int i = 1; i <= m; i++)
-        if (node[i]->isLeaf == false)
-        {
-            auto curNode = (AstInnerNode *)node[i];
-            curNode->left = node[i * 2];
-            curNode->right = node[i * 2 + 1];
-        }
-    vector<int> res = getListIndex(node[1], 0, 2, dsChiMucNguoc);
+    vector<int> res = getListIndex(root, 0, 2, dsChiMucNguoc);
     for (auto idx : res)
         cout << idx << " ";
 }

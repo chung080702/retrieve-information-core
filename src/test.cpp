@@ -3,12 +3,13 @@
 
 using namespace std;
 
-vector<vector<int>> dsChiMucNguoc;
+vector<Array> dsChiMucNguoc;
 
 int main()
 {
     freopen("test.inp", "r", stdin);
     int n, m;
+    dsChiMucNguoc.begin = new int[4];
     // danh sach chi muc nguoc
     cin >> n; // so luong word
     for (int i = 1; i <= n; i++)

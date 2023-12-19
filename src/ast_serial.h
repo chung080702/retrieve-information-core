@@ -3,18 +3,24 @@
 
 using namespace std;
 
-int current(AstBaseNode *node, vector<vector<int>> dsChiMucNguoc)
+struct Array
+{
+	int *begin;
+	int length;
+};
+
+int current(AstBaseNode *node, vector<Array> dsChiMucNguoc)
 {
 	if (node->isLeaf)
 	{
 		auto *nd = (AstLeafNode *)node;
-		vector<int> &chiMucNguoc = dsChiMucNguoc[nd->wordId];
+		auto &chiMucNguoc = dsChiMucNguoc[nd->wordId];
 
 		if (nd->idx == -1)
 			return -2;
-		if (chiMucNguoc.size() <= nd->idx)
+		if (chiMucNguoc.length <= nd->idx)
 			return -1;
-		return chiMucNguoc[nd->idx];
+		return chiMucNguoc.begin[nd->idx];
 	}
 	else
 	{
@@ -23,7 +29,7 @@ int current(AstBaseNode *node, vector<vector<int>> dsChiMucNguoc)
 	}
 }
 
-int next(AstBaseNode *node, vector<vector<int>> dsChiMucNguoc)
+int next(AstBaseNode *node, vector<Array> dsChiMucNguoc)
 {
 
 	if (current(node, dsChiMucNguoc) == -1)
@@ -121,7 +127,7 @@ void clearTree(AstBaseNode *node)
 	}
 }
 
-vector<int> getListIndex(AstBaseNode *root, int begin, int length, vector<vector<int>> dsChiMucNguoc)
+vector<int> getListIndex(AstBaseNode *root, int begin, int length, vector<Array> dsChiMucNguoc)
 {
 	clearTree(root);
 	vector<int> res;
